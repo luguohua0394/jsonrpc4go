@@ -102,7 +102,7 @@ func GetSingleResponse(jsonData map[string]any, result any) error {
 		resErr := new(Error)
 		err = GetStruct(emData, resErr)
 		Debug(resErr.Message)
-		return &ErrorCode{Message: resErr.Message}
+		return &ErrorCode{Message: "resErr.Message"}
 		//return errors.New(resErr.Message)
 	}
 	if err = mapstructure.Decode(jsonData["result"], result); err != nil {
