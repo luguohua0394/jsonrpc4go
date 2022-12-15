@@ -2,8 +2,6 @@ package common
 
 import (
 	"encoding/json"
-	"errors"
-	"fmt"
 	"github.com/mitchellh/mapstructure"
 	"reflect"
 )
@@ -24,6 +22,14 @@ type Error struct {
 	Message string `json:"message"`
 	Data    any    `json:"data"`
 }
+type ErrorCode struct {
+	Code    int    `json:"code"`
+	Message string `json:"message"`
+}
+
+func (e *ErrorCode) Error() string {
+	return e.Message
+}
 
 type ErrorResponse struct {
 	Id      string `json:"id"`
@@ -35,16 +41,6 @@ type ErrorNotifyResponse struct {
 	JsonRpc string `json:"jsonrpc"`
 	Error   Error  `json:"error"`
 }
-
-//
-//type ErrorCode struct {
-//	Code    int    `json:"code"`
-//	Message string `json:"message"`
-//}
-//
-//func (e *ErrorCode) Error() string {
-//	return ""
-//}
 
 func E(id any, jsonRpc string, errCode int) any {
 	e := Error{
@@ -100,17 +96,13 @@ func GetSingleResponse(jsonData map[string]any, result any) error {
 	var (
 		err error
 	)
-	fmt.Println("rpc:")
-
 	emData, ok := jsonData["error"]
 	if ok {
-		fmt.Println("rpc:333")
 		resErr := new(Error)
 		err = GetStruct(emData, resErr)
 		Debug(resErr.Message)
-		//fmt.Println(resErr.Message, resErr.Code)
-		//return &ErrorCode{Message: "resErr.Message"}
-		return errors.New(resErr.Message)
+		return &ErrorCode{Code: resErr.Code, Message: resErr.Message}
+		//return errors.New(resErr.Message)
 	}
 	if err = mapstructure.Decode(jsonData["result"], result); err != nil {
 		Debug(err)
