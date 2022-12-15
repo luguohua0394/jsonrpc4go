@@ -102,9 +102,11 @@ func GetSingleResponse(jsonData map[string]any, result any) error {
 
 	emData, ok := jsonData["error"]
 	if ok {
+		fmt.Println("rpc:333")
 		resErr := new(Error)
 		err = GetStruct(emData, resErr)
 		Debug(resErr.Message)
+		fmt.Println(resErr.Message, resErr.Code)
 		return &ErrorCode{Message: "resErr.Message"}
 		//return errors.New(resErr.Message)
 	}
