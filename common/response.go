@@ -107,7 +107,7 @@ func GetSingleResponse(jsonData map[string]any, result any) error {
 		resErr := new(Error)
 		err = GetStruct(emData, resErr)
 		Debug(resErr.Message)
-		fmt.Println(resErr.Message, resErr.Code)
+		//fmt.Println(resErr.Message, resErr.Code)
 		//return &ErrorCode{Message: "resErr.Message"}
 		return errors.New(resErr.Message)
 	}
