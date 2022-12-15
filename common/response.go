@@ -2,7 +2,6 @@ package common
 
 import (
 	"encoding/json"
-	"errors"
 	"github.com/mitchellh/mapstructure"
 	"reflect"
 )
@@ -33,6 +32,15 @@ type ErrorResponse struct {
 type ErrorNotifyResponse struct {
 	JsonRpc string `json:"jsonrpc"`
 	Error   Error  `json:"error"`
+}
+
+type ErrorCode struct {
+	Code    int    `json:"code"`
+	Message string `json:"message"`
+}
+
+func (e *ErrorCode) Error() string {
+	return e.Message
 }
 
 func E(id any, jsonRpc string, errCode int) any {
@@ -94,7 +102,8 @@ func GetSingleResponse(jsonData map[string]any, result any) error {
 		resErr := new(Error)
 		err = GetStruct(emData, resErr)
 		Debug(resErr.Message)
-		return errors.New(resErr.Message)
+		return &ErrorCode{Code: resErr.Code, Message: resErr.Message}
+		//return errors.New(resErr.Message)
 	}
 	if err = mapstructure.Decode(jsonData["result"], result); err != nil {
 		Debug(err)
