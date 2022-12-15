@@ -42,7 +42,7 @@ type ErrorCode struct {
 }
 
 func (e *ErrorCode) Error() string {
-	return e.Message
+	return ""
 }
 
 func E(id any, jsonRpc string, errCode int) any {
