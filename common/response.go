@@ -36,14 +36,15 @@ type ErrorNotifyResponse struct {
 	Error   Error  `json:"error"`
 }
 
-type ErrorCode struct {
-	Code    int    `json:"code"`
-	Message string `json:"message"`
-}
-
-func (e *ErrorCode) Error() string {
-	return ""
-}
+//
+//type ErrorCode struct {
+//	Code    int    `json:"code"`
+//	Message string `json:"message"`
+//}
+//
+//func (e *ErrorCode) Error() string {
+//	return ""
+//}
 
 func E(id any, jsonRpc string, errCode int) any {
 	e := Error{
