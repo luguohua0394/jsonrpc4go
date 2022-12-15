@@ -2,6 +2,7 @@ package common
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/mitchellh/mapstructure"
 	"reflect"
 )
@@ -97,6 +98,8 @@ func GetSingleResponse(jsonData map[string]any, result any) error {
 	var (
 		err error
 	)
+	fmt.Println("rpc:")
+
 	emData, ok := jsonData["error"]
 	if ok {
 		resErr := new(Error)
