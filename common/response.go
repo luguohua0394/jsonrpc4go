@@ -95,19 +95,14 @@ func jsonS(id any, jsonRpc string, result any) []byte {
 
 func GetSingleResponse(jsonData map[string]any, result any) error {
 	var (
-		err     error
-		errCode *ErrorCode
+		err error
 	)
 	emData, ok := jsonData["error"]
 	if ok {
 		resErr := new(Error)
 		err = GetStruct(emData, resErr)
 		Debug(resErr.Message)
-
-		errCode = new(ErrorCode)
-		errCode.Code = resErr.Code
-		errCode.Message = resErr.Message
-		return errCode
+		return &ErrorCode{Message: resErr.Message}
 		//return errors.New(resErr.Message)
 	}
 	if err = mapstructure.Decode(jsonData["result"], result); err != nil {
