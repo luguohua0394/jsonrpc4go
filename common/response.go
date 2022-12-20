@@ -103,13 +103,13 @@ func GetSingleResponse(jsonData map[string]any, result any) error {
 		err = GetStruct(emData, resErr)
 		Debug(resErr.Message)
 
-		if err = mapstructure.Decode(jsonData["error"], result); err != nil {
+		if err = mapstructure.WeakDecode(jsonData["error"], result); err != nil {
 			Debug(err)
 			return err
 		}
 		return errors.New(resErr.Message)
 	}
-	if err = mapstructure.Decode(jsonData["result"], result); err != nil {
+	if err = mapstructure.WeakDecode(jsonData["result"], result); err != nil {
 		Debug(err)
 		return err
 	}
